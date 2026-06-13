@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JARVIS Voice Dashboard - SUJOK AI BOT & HARI BOT</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <div class="glow-container">
+    <div class="glow-circle blue"></div>
+    <div class="glow-circle cyan"></div>
+  </div>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="logo-area">
+        <div class="logo-icon"></div>
+        <div class="logo-text">
+          <h1>JARVIS</h1>
+          <p>CHIEF EMPLOYEE & VIRTUAL CHIEF OF STAFF</p>
+        </div>
+      </div>
+      <div class="system-status">
+        <span class="status-dot green"></span>
+        <span id="status-text">SYSTEM: ONLINE</span>
+      </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="dashboard-grid">
+      <!-- Left Column: Operations Dashboard -->
+      <section class="dashboard-panel operations-panel">
+        <div class="panel-header">
+          <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+          <h2>SUJOK AI & HARI BOT Operations</h2>
+        </div>
+        
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-label">SUJOK AI BOT STATUS</span>
+            <div class="metric-value-container">
+              <span class="metric-value active">ONLINE</span>
+              <span class="pulse-indicator-small"></span>
+            </div>
+            <p class="metric-desc">Monitoring diagnostics & treatment maps</p>
+          </div>
+          
+          <div class="metric-card">
+            <span class="metric-label">HARI BOT STATUS</span>
+            <div class="metric-value-container">
+              <span class="metric-value inactive">STANDBY</span>
+              <span class="pulse-indicator-small amber"></span>
+            </div>
+            <p class="metric-desc">Awaiting scheduled routine updates</p>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">DAILY ACTIVE QUERIES</span>
+            <span class="metric-value number">42</span>
+            <p class="metric-desc">Avg response latency: 1.2s</p>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">OPERATIONAL TASKS</span>
+            <span class="metric-value number text-cyan">5 / 8</span>
+            <p class="metric-desc">3 critical pending review</p>
+          </div>
+        </div>
+
+        <div class="quick-commands">
+          <h3>Quick Commands</h3>
+          <div class="commands-list">
+            <button class="cmd-btn" data-command="Status report">
+              <span>📋</span> Status Report
+            </button>
+            <button class="cmd-btn" data-command="What is Sujok therapy?">
+              <span>👐</span> Sujok Therapy Info
+            </button>
+            <button class="cmd-btn" data-command="Diagnose headache">
+              <span>🤕</span> Diagnose Headache
+            </button>
+            <button class="cmd-btn" data-command="Create a new task">
+              <span>📝</span> Add Task
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Center Column: Futuristic Speaking Core & Voice UI -->
+      <section class="dashboard-panel voice-panel">
+        <div class="reactor-container">
+          <!-- Multi-layered glowing arc reactor core -->
+          <div class="reactor" id="reactor-button" role="button" aria-label="Activate Voice Control">
+            <div class="reactor-ring outer"></div>
+            <div class="reactor-ring middle"></div>
+            <div class="reactor-ring inner"></div>
+            <div class="reactor-core">
+              <svg id="mic-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="23"/>
+                <line x1="8" y1="23" x2="16" y2="23"/>
+              </svg>
+            </div>
+            <!-- Audio Waves animation inside the reactor button container -->
+            <div class="audio-waves" id="wave-visualizer">
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+              <span class="wave-bar"></span>
+            </div>
+          </div>
+          <div class="voice-status-indicator">
+            <span id="voice-indicator-text">CLICK REACTOR TO TALK</span>
+          </div>
+        </div>
+
+        <div class="speech-settings">
+          <div class="settings-header">
+            <h3>Voice Output Settings</h3>
+          </div>
+          <div class="settings-controls">
+            <div class="control-group">
+              <label for="voice-select">TTS Voice</label>
+              <select id="voice-select" class="styled-input">
+                <option value="">Detecting voices...</option>
+              </select>
+            </div>
+            <div class="control-row">
+              <div class="control-group">
+                <label for="pitch-range">Pitch: <span id="pitch-val">1.0</span></label>
+                <input type="range" id="pitch-range" min="0.5" max="2" step="0.1" value="1.0">
+              </div>
+              <div class="control-group">
+                <label for="rate-range">Speed: <span id="rate-val">1.0</span></label>
+                <input type="range" id="rate-range" min="0.5" max="2" step="0.1" value="1.0">
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Interactive Transcript -->
+      <section class="dashboard-panel chat-panel">
+        <div class="panel-header">
+          <svg class="panel-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          <h2>Communication Interface</h2>
+        </div>
+
+        <div class="chat-history" id="chat-history">
+          <div class="chat-message jarvis">
+            <div class="msg-avatar">J</div>
+            <div class="msg-body">
+              <p>Welcome back, founder. I am JARVIS, your Virtual Chief of Staff. I have initialized the "SUJOK AI BOT & HARI BOT & BUSINESS SOLUTIONS" management portal. Speak to me by clicking the central Arc Reactor, or type a request below.</p>
+              <span class="msg-time">Just now</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="input-area">
+          <form id="text-input-form" class="chat-form">
+            <input type="text" id="text-message" placeholder="Type a message or instruction..." autocomplete="off">
+            <button type="submit" class="send-btn" aria-label="Send message">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+          </form>
+          <div class="chat-actions">
+            <button id="clear-btn" class="action-btn-small">Clear Log</button>
+            <button id="mute-btn" class="action-btn-small">TTS: Enabled</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>&copy; 2026 SUJOK AI BOT & HARI BOT & BUSINESS SOLUTIONS. Operational Security Protocol Active.</p>
+    </footer>
+  </div>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
