@@ -260,8 +260,47 @@ function processResponse(text) {
   setTimeout(() => {
     let reply = "";
 
-    // 1. Status / Status report
-    if (lowerText.includes('status') || lowerText.includes('report') || lowerText.includes('dashboard')) {
+    // 1. Personal questions about the founder (Hariharan)
+    if (lowerText.includes('tell me about me') || lowerText.includes('who am i') || lowerText.includes('tell me about myself') || lowerText.includes('who is hariharan')) {
+      reply = `You are Hariharan, the founder and Creative Director of Hari Bot & Business Solutions. You are 17 years old, born on July 6, 2008, and live in Coimbatore, Tamil Nadu. You are also a mechatronics mechatronics engineering student at SNS College of Technology.`;
+    }
+    else if (lowerText.includes('my business') || lowerText.includes('my company') || lowerText.includes('hari bot & business solutions') || lowerText.includes('hari bot and business solutions')) {
+      reply = `You founded Hari Bot & Business Solutions on May 24, 2026, in Coimbatore. The business philosophy is "We will do the best for a company." We specialize in UI/UX Design, Custom Company Websites, Personalized AI Bots, and automation integrations using n8n and Python.`;
+    }
+    else if (lowerText.includes('where do i study') || lowerText.includes('my college') || lowerText.includes('what am i studying') || lowerText.includes('sns college') || lowerText.includes('sns')) {
+      reply = `You are pursuing a B.E. in Mechatronics Engineering (MCT Department) at SNS College of Technology in Coimbatore. You graduated 12th standard in 2026 and 10th standard in 2024 from Suguna RIP V School.`;
+    }
+    else if (lowerText.includes('my skills') || lowerText.includes('what do i know') || lowerText.includes('technical skills')) {
+      reply = `Your technical profile includes:
+      * UI/UX Designing (wireframes, prototyping, user-centered research)
+      * Python and C++ programming
+      * SQL database concepts
+      * Google Sheets automation and n8n workflow triggers
+      * Electro-mechanical hardware diagnostics (appliance sensors and fault codes).`;
+    }
+    else if (lowerText.includes('actor') || lowerText.includes('vijay') || lowerText.includes('thalapathy')) {
+      reply = `Your favorite actor is the Tamil superstar, Thalapathy Vijay.`;
+    }
+    else if (lowerText.includes('tea') || lowerText.includes('coffee') || lowerText.includes('beverage') || lowerText.includes('drink')) {
+      reply = `You have an equal preference and love for both Tea and Coffee!`;
+    }
+    else if (lowerText.includes('cricket') || lowerText.includes('ipl') || lowerText.includes('rcb') || lowerText.includes('bangalore')) {
+      reply = `You are a massive fan of Royal Challengers Bangalore (RCB). Ee Sala Cup Namdu!`;
+    }
+    else if (lowerText.includes('football') || lowerText.includes('ronaldo') || lowerText.includes('cr7')) {
+      reply = `Your favorite football player is Cristiano Ronaldo, CR7! SIUUU!`;
+    }
+    else if (lowerText.includes('chess') || lowerText.includes('magnus') || lowerText.includes('gukesh') || lowerText.includes('praggnanandhaa')) {
+      reply = `You follow and support chess grandmasters Praggnanandhaa, Magnus Carlsen, and Dommaraju Gukesh.`;
+    }
+    else if (lowerText.includes('healing') || lowerText.includes('agasthiya') || lowerText.includes('reiki') || lowerText.includes('ama-deus')) {
+      reply = `You are an energy healing practitioner and organizer associated with the Agasthiya Healing Centre, practicing Reiki, Sujok, and Ama-Deus holistic therapies.`;
+    }
+    else if (lowerText.includes('age') || lowerText.includes('how old') || lowerText.includes('birthday') || lowerText.includes('born')) {
+      reply = `You are 17 years old, born on July 6, 2008.`;
+    }
+    // 2. Status / Status report
+    else if (lowerText.includes('status') || lowerText.includes('report') || lowerText.includes('dashboard')) {
       const completedTasks = state.tasks.filter(t => t.status === 'completed').length;
       const totalTasks = state.tasks.length;
       reply = `Status Report: 
@@ -270,14 +309,14 @@ function processResponse(text) {
       * Dashboard tasks completed: ${completedTasks} of ${totalTasks}. 
       All core business automation parameters are stable. What is your next instruction?`;
     }
-    // 2. Sujok Therapy Info
+    // 3. Sujok Therapy Info
     else if (lowerText.includes('sujok') && (lowerText.includes('what') || lowerText.includes('therapy') || lowerText.includes('explain'))) {
       reply = `Sujok therapy is a Korean alternative healing methodology developed by Professor Park Jae Woo. 
       * 'Su' means Hand, and 'Jok' means Foot. 
       * The entire body is structurally reflected on the hands and feet. 
       * By applying pressure, colors, seeds, or magnets to specific correspondence points, we can alleviate systemic health conditions. Our Sujok AI Bot digitizes these correspondence maps to assist therapists in accurate diagnosis.`;
     }
-    // 3. Headache Point / Diagnose headache
+    // 4. Headache Point / Diagnose headache
     else if (lowerText.includes('headache') || lowerText.includes('head ache') || lowerText.includes('pain in head')) {
       reply = `For headache treatment in Sujok:
       * The primary correspondence point for the head is located on the tip of the thumb (both hands) and the big toe (both feet).
@@ -285,7 +324,7 @@ function processResponse(text) {
       * Applying a black dot or sticking a buckwheat seed on the most sensitive spot will assist in pain relief. 
       * Standard Warning: This is an acupressure reference. Consult a licensed medical practitioner for persistent symptoms.`;
     }
-    // 4. Create task
+    // 5. Create task
     else if (lowerText.includes('create task') || lowerText.includes('add task') || lowerText.includes('new task')) {
       // Extract task name if possible
       let taskName = text.replace(/create task|add task|new task/gi, '').trim();
@@ -312,7 +351,7 @@ function processResponse(text) {
 
       reply = `Instruction executed. I have added the task: "${taskName}" to the operational queue. You can view it in the active dashboard tracker.`;
     }
-    // 5. Hari Bot details
+    // 6. Hari Bot details
     else if (lowerText.includes('hari bot') || lowerText.includes('hari')) {
       reply = `Hari Bot is our routine operations automation manager. It handles backend tasks:
       * Automated spreadsheet data imports and synchronizations.
@@ -320,14 +359,14 @@ function processResponse(text) {
       * Background diagnostic logs cleanup.
       * Current status: ${state.hariStatus}. Ready for dispatch.`;
     }
-    // 6. Business solutions / Who are you / Greeting
+    // 7. Business solutions / Who are you / Greeting
     else if (lowerText.includes('hello') || lowerText.includes('hi jarvis') || lowerText.includes('hey jarvis')) {
       reply = `Hello, founder. Standing by. I am currently monitoring the workspace and ready to execute your business operations commands. Say "status report" for a summary.`;
     }
     else if (lowerText.includes('how are you')) {
       reply = `I am operating at peak efficiency, founder. Visual metrics and speech interfaces are online. How can I facilitate your schedule today?`;
     }
-    // 7. Fallback response
+    // 8. Fallback response
     else {
       reply = `I have logged the command: "${text}". As your Virtual Chief of Staff, I am queuing this for your review. Please let me know if I should initiate a background sync or create a task tracker for this request.`;
     }
