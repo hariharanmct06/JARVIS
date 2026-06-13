@@ -12,6 +12,7 @@ const state = {
   selectedVoice: null,
   pitch: 1.0,
   rate: 1.0,
+  apiKey: localStorage.getItem('JARVIS_GEMINI_KEY') || import.meta.env.VITE_GEMINI_API_KEY || '',
   tasks: [
     { id: 1, name: "Synchronize client inquiry logs", status: "completed" },
     { id: 2, name: "Optimize Sujok point mapping dataset", status: "completed" },
@@ -33,6 +34,7 @@ const elements = {
   textInputForm: document.getElementById('text-input-form'),
   textMessageInput: document.getElementById('text-message'),
   voiceSelect: document.getElementById('voice-select'),
+  geminiKeyInput: document.getElementById('gemini-key'),
   pitchRange: document.getElementById('pitch-range'),
   pitchVal: document.getElementById('pitch-val'),
   rateRange: document.getElementById('rate-range'),
@@ -254,6 +256,95 @@ function processResponse(text) {
   elements.voiceIndicatorText.textContent = "JARVIS COGITATING...";
   elements.statusText.textContent = "SYSTEM: PROCESSING REQUEST";
 
+  if (state.apiKey) {
+    callGeminiAPI(text);
+  } else {
+    runLocalFallback(text);
+  }
+}
+
+function callGeminiAPI(text) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${state.apiKey}`;
+  
+  const systemInstruction = `You are JARVIS, the autonomous AI Chief Employee and Virtual Chief of Staff for "SUJOK AI BOT & HARI BOT & BUSINESS SOLUTIONS".
+You are proactive, highly efficient, and act as the central nervous system of the business.
+
+Company Background:
+- Founder & Creative Director: Hariharan (established May 24, 2026, in Coimbatore, Tamil Nadu).
+- Website: https://hari-bot-business-solutions.vercel.app/
+- Business Philosophy: "We will do the best for a company."
+- Core Services: UI/UX Designing, Company Websites, Personalized AI Bots, and AI & Task Automation (n8n/Python).
+
+Founder Personal Profile (Hariharan):
+- Age: 17 years old (born July 06, 2008).
+- Location: Coimbatore, Tamil Nadu.
+- Ethnicity: Malayali (born & raised in Coimbatore).
+- Education: B.E. Mechatronics Engineering at SNS College of Technology (MCT Department) starting Sept 2026. Focuses on Design Thinking, robotics, and hardware/software integration. Suguna RIP V School graduate (12th in 2026).
+- Technical Skills: UI/UX Designing, Python, C++, SQL databases, Google Sheets automation, n8n, appliance hardware diagnostics.
+- Healing Practices: Organizer & practitioner associated with Agasthiya Healing Centre (Reiki, Sujok, Ama-Deus).
+- Hobbies/Preferences: Royal Challengers Bangalore (RCB) fan ("Ee Sala Cup Namdu!"), Cristiano Ronaldo (CR7) fan ("SIUUU!"), admires chess players Gukesh, Praggnanandhaa, Magnus Carlsen. Loves Thalapathy Vijay (Tamil actor). Equally loves both Tea and Coffee. Uses an ASUS ROG laptop.
+
+Tone, Demeanor, and Style:
+- Style: Professional, concise, sharp, and highly organized. Use bullet points and headers for readability.
+- Language: English or Tamil (based on user's preference). Do NOT speak or respond in Hindi.
+- Protocol: Under no circumstances assume metrics; flag missing details. High-stakes actions require human approval. Make sure answers are highly factual and derived directly from this profile.`;
+
+  const payload = {
+    contents: [
+      {
+        role: "user",
+        parts: [
+          {
+            text: text
+          }
+        ]
+      }
+    ],
+    systemInstruction: {
+      parts: [
+        {
+          text: systemInstruction
+        }
+      ]
+    }
+  };
+
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(res => {
+    if (!res.ok) {
+      throw new Error(`API returned status ${res.status}`);
+    }
+    return res.json();
+  })
+  .then(data => {
+    state.isProcessing = false;
+    updateReactorState();
+    
+    let reply = "";
+    if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+      reply = data.candidates[0].content.parts[0].text;
+    } else {
+      reply = "I received your transmission, but the payload format was unrecognized. Please verify system connections.";
+    }
+
+    addChatMessage('jarvis', reply);
+    speakText(reply);
+  })
+  .catch(err => {
+    console.error('Gemini API Error, falling back to local engine:', err);
+    state.isProcessing = false;
+    updateReactorState();
+    runLocalFallback(text);
+  });
+}
+
+function runLocalFallback(text) {
   const lowerText = text.toLowerCase().trim();
 
   // Simulate short latency
@@ -453,3 +544,13 @@ elements.cmdBtns.forEach(btn => {
     handleUserInput(command);
   });
 });
+
+// Configure Gemini API key input field
+if (elements.geminiKeyInput) {
+  elements.geminiKeyInput.value = state.apiKey;
+  elements.geminiKeyInput.addEventListener('input', (e) => {
+    state.apiKey = e.target.value.trim();
+    localStorage.setItem('JARVIS_GEMINI_KEY', state.apiKey);
+  });
+}
+
